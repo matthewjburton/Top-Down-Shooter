@@ -15,6 +15,10 @@ public class PauseManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()

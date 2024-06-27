@@ -9,6 +9,12 @@ public class BurstWeapon : ProjectileWeapon
 
     public override void Shoot(GameObject shooter)
     {
+        if (IsCooldownActive())
+            return;
+
+        if (HandleReload(shooter))
+            return;
+
         Vector3 targetPosition = GetTargetPosition();
         Vector2 direction = CalculateDirection(shooter.transform.position, targetPosition);
 
@@ -21,24 +27,15 @@ public class BurstWeapon : ProjectileWeapon
     {
         for (int i = 0; i < numberOfProjectiles; i++)
         {
-            if (ammo.NeedReload())
-            {
-                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
-                yield break;
-            }
-
             GameObject newProjectile = SpawnProjectile(shooter);
             ApplyVelocity(newProjectile, direction);
 
-            SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
+            ScreenShake.Instance.Shake(0.05f, 0.05f);
+            PlayShootSound(shooter);
+            timeOfLastShot = Time.time;
 
-            if (ammo.NeedReload())
-            {
-                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
+            if (HandleReload(shooter))
                 yield break;
-            }
 
             yield return new WaitForSeconds(fireRate);
         }

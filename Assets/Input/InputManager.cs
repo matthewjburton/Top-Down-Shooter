@@ -33,7 +33,10 @@ public class InputManager : MonoBehaviour
         {
             Instance = this;
         }
-
+        else
+        {
+            Destroy(gameObject);
+        }
         // Get reference to player input
         PlayerInput = GetComponent<PlayerInput>();
         if (PlayerInput == null) Debug.Log("Player Input not found!");

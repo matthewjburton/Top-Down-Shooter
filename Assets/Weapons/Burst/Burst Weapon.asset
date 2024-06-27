@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a2d304b276fb441ab7d57b12bea55b, type: 3}
   m_Name: Burst Weapon
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: fd5134fdbba45f44095370ff2d5ccbf5, type: 3}
   projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
   projectileSpeed: 50
   ammo: {fileID: 11400000, guid: f20b515ffe5c2d94685a997f88f706e2, type: 2}
+  cooldownTime: 0.2
   shootSounds:
   - {fileID: 8300000, guid: cedf932de2529f64e9555de765a3934c, type: 3}
   - {fileID: 8300000, guid: 5fd8186a315fb2a42bec31d2381c034f, type: 3}

@@ -15,7 +15,7 @@ public class Ammo : ScriptableObject
     [Header("Reload")]
     [SerializeField] private float reloadTime;
     [SerializeField] private GameObject reloadPrefab;
-    private GameObject reloadInstance;
+    GameObject reloadInstance;
 
     public void UseAmmo()
     {

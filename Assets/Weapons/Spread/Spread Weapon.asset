@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413d9bcb2df45f54aa4affb25813f33b, type: 3}
   m_Name: Spread Weapon
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: f836ce63505044a48909014a532a8457, type: 3}
   projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
   projectileSpeed: 50
   ammo: {fileID: 11400000, guid: da92c419151dd414c946c9c3ada7128c, type: 2}
+  cooldownTime: 0
   shootSounds:
   - {fileID: 8300000, guid: cedf932de2529f64e9555de765a3934c, type: 3}
   - {fileID: 8300000, guid: 5fd8186a315fb2a42bec31d2381c034f, type: 3}
   - {fileID: 8300000, guid: 51dd1573154ff9e4cb1e497e54e16728, type: 3}
   spreadAngle: 10
   fireRate: 0.1
+  isShooting: 0

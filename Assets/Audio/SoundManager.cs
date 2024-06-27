@@ -12,6 +12,10 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void PlaySound(AudioClip audioClip, Transform spawnTransform, float pitch = 1f, float volume = 1f)

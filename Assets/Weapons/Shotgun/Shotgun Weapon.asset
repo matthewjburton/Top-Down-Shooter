@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0282b484e0d8f4f89732d629fc70fb, type: 3}
   m_Name: Shotgun Weapon
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 1f945bb2399ea214e8aa93cd14b7a472, type: 3}
   projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
   projectileSpeed: 50
   ammo: {fileID: 11400000, guid: 1b769561231c81b47b9622d483f8b11d, type: 2}
+  cooldownTime: 0.4
   shootSounds:
   - {fileID: 8300000, guid: cedf932de2529f64e9555de765a3934c, type: 3}
   - {fileID: 8300000, guid: 5fd8186a315fb2a42bec31d2381c034f, type: 3}

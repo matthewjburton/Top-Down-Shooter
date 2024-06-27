@@ -6,9 +6,16 @@ public class SpreadWeapon : ProjectileWeapon
 {
     [SerializeField, Range(0, 360)] float spreadAngle;
     [SerializeField, Min(0)] float fireRate;
+    [SerializeField] bool isShooting;
 
     public override void Shoot(GameObject shooter)
     {
+        if (isShooting)
+            return;
+
+        if (HandleReload(shooter))
+            return;
+
         // Ensure shooter has a MonoBehaviour component to start coroutine
         if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
             shooterMonoBehaviour.StartCoroutine(ShootContinuous(shooter));
@@ -16,33 +23,27 @@ public class SpreadWeapon : ProjectileWeapon
 
     IEnumerator ShootContinuous(GameObject shooter)
     {
-        if (ammo.NeedReload())
-        {
-            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
-            yield break;
-        }
+        isShooting = true;
 
-        while (InputManager.Instance.AttackPressed) // Continuously fire while shoot button is pressed
+        while (InputManager.Instance.AttackPressed && isShooting)
         {
             Vector3 targetPosition = GetTargetPosition();
             Vector2 direction = CalculateDirection(shooter.transform.position, targetPosition);
-
             Quaternion rotation = CalculateRotation();
             GameObject newProjectile = SpawnProjectile(shooter);
             ApplyVelocity(newProjectile, rotation * direction);
 
-            SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
+            ScreenShake.Instance.Shake(0.05f, 0.05f);
+            PlayShootSound(shooter);
+            timeOfLastShot = Time.time;
 
-            if (ammo.NeedReload())
-            {
-                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
-                yield break;
-            }
+            if (HandleReload(shooter))
+                yield return new WaitUntil(() => ammo.CurrentAmmo > 0);
 
             yield return new WaitForSeconds(fireRate);
         }
+
+        isShooting = false;
     }
 
     Quaternion CalculateRotation()
@@ -56,5 +57,10 @@ public class SpreadWeapon : ProjectileWeapon
 
         // Calculate rotation based on the current angle
         return Quaternion.Euler(0f, 0f, angle);
+    }
+
+    void OnEnable()
+    {
+        PlayerCombat.OnWeaponSwitched += () => isShooting = false;
     }
 }

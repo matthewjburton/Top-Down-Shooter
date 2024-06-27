@@ -190,4 +190,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8f055584e5115b48a3941bc06ced4fe, type: 2}
   - {fileID: 11400000, guid: 6d78e33d23339234187f308d2467dc49, type: 2}
   - {fileID: 11400000, guid: e3dfd302f9d53b545a42b1fa46203ecf, type: 2}
-  currentWeapon: {fileID: 11400000, guid: e3dfd302f9d53b545a42b1fa46203ecf, type: 2}
+  currentWeapon: {fileID: 11400000, guid: 6d78e33d23339234187f308d2467dc49, type: 2}

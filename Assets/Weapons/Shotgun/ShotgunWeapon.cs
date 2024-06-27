@@ -8,17 +8,18 @@ public class ShotgunWeapon : ProjectileWeapon
 
     public override void Shoot(GameObject shooter)
     {
-        if (ammo.NeedReload())
-        {
-            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
+        if (IsCooldownActive())
             return;
-        }
 
-        SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
+        if (HandleReload(shooter))
+            return;
 
         Vector3 targetPosition = GetTargetPosition();
         Vector2 direction = CalculateDirection(shooter.transform.position, targetPosition);
+
+        ScreenShake.Instance.Shake(0.05f, 0.05f);
+        PlayShootSound(shooter);
+        timeOfLastShot = Time.time;
 
         for (int i = 0; i < numberOfProjectiles; i++)
         {
@@ -26,12 +27,8 @@ public class ShotgunWeapon : ProjectileWeapon
             GameObject newProjectile = SpawnProjectile(shooter);
             ApplyVelocity(newProjectile, rotation * direction);
 
-            if (ammo.NeedReload())
-            {
-                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
+            if (HandleReload(shooter))
                 return;
-            }
         }
     }
 

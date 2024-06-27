@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
+        ScreenShake.Instance.Shake(0.1f, 0.1f);
+
         SoundManager.Instance.PlayRandomSound(hitSounds, transform);
 
         if (!flashing)

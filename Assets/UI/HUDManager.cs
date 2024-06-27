@@ -16,6 +16,10 @@ public class HUDManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()

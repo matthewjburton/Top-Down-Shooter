@@ -9,12 +9,17 @@ public abstract class ProjectileWeapon : Weapon
     [Header("Ammo Settings")]
     [SerializeField] public Ammo ammo;
 
+    [Header("Cooldown")]
+    [SerializeField, Min(0)] protected float cooldownTime;
+    protected float timeOfLastShot;
+
     [Header("Audio")]
     [SerializeField] protected AudioClip[] shootSounds;
 
     void OnEnable()
     {
         ammo.SetAmmo(ammo.MaxAmmo);
+        timeOfLastShot = -cooldownTime;
     }
 
     public override void Attack(GameObject attacker)
@@ -24,27 +29,39 @@ public abstract class ProjectileWeapon : Weapon
 
     public virtual void Shoot(GameObject shooter)
     {
-        if (ammo.NeedReload())
-        {
-            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
+        if (IsCooldownActive())
             return;
-        }
+
+        if (HandleReload(shooter))
+            return;
 
         Vector3 targetPosition = GetTargetPosition();
         Vector2 direction = CalculateDirection(shooter.transform.position, targetPosition);
-
         GameObject newProjectile = SpawnProjectile(shooter);
         ApplyVelocity(newProjectile, direction);
 
-        SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
+        ScreenShake.Instance.Shake(0.05f, 0.05f);
+        PlayShootSound(shooter);
+        timeOfLastShot = Time.time;
 
+        if (HandleReload(shooter))
+            return;
+    }
+
+    protected virtual bool HandleReload(GameObject shooter)
+    {
         if (ammo.NeedReload())
         {
             if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
                 shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
-            return;
+            return true;
         }
+        return false;
+    }
+
+    protected virtual void PlayShootSound(GameObject shooter)
+    {
+        SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
     }
 
     protected virtual Vector3 GetTargetPosition()
@@ -77,5 +94,10 @@ public abstract class ProjectileWeapon : Weapon
         {
             rb.velocity = direction * projectileSpeed;
         }
+    }
+
+    protected bool IsCooldownActive()
+    {
+        return Time.time - timeOfLastShot < cooldownTime;
     }
 }
