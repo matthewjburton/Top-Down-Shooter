@@ -36,7 +36,6 @@ public abstract class ProjectileWeapon : Weapon
 
         GameObject newProjectile = SpawnProjectile(shooter);
         ApplyVelocity(newProjectile, direction);
-        ammo.UseAmmo();
 
         SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
 

@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Stream Weapon", menuName = "Weapons/Stream Weapon")]
-public class StreamWeapon : ProjectileWeapon
+[CreateAssetMenu(fileName = "Spread Weapon", menuName = "Weapons/Spread Weapon")]
+public class SpreadWeapon : ProjectileWeapon
 {
     [SerializeField, Range(0, 360)] float spreadAngle;
     [SerializeField, Min(0)] float fireRate;

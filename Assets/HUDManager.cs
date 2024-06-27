@@ -1,10 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance { get; private set; }
     public GameObject ammo;
+    public Image weaponIcon;
 
     private ProjectileWeapon currentWeapon;
 
@@ -38,6 +40,11 @@ public class HUDManager : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Player").TryGetComponentWithWarning(out PlayerCombat playerCombat))
         {
+            if (playerCombat.currentWeapon == null)
+                return;
+
+            weaponIcon.sprite = playerCombat.currentWeapon.icon;
+
             currentWeapon = (ProjectileWeapon)playerCombat.currentWeapon;
             UpdateAmmoDisplay(currentWeapon.ammo.CurrentAmmo, currentWeapon.ammo.MaxAmmo);
 

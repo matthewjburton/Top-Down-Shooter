@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 413d9bcb2df45f54aa4affb25813f33b, type: 3}
-  m_Name: Stream Weapon
+  m_Name: Spread Weapon
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
   projectileSpeed: 50

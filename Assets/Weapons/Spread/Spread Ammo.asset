@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f41d43bd19430948b6b6cb497a7390d, type: 3}
-  m_Name: Stream Ammo
+  m_Name: Spread Ammo
   m_EditorClassIdentifier: 
   maxAmmo: 25
   reloadTime: 1.2
