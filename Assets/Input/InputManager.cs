@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     public bool AttackJustPressed { get; private set; }
     public bool AttackPressed { get; private set; }
     public Vector2 MouseInput { get; private set; }
+    public bool SwitchWeaponInput { get; private set; }
     public bool PauseInput { get; private set; }
     public bool UnpauseInput { get; private set; }
 
@@ -21,6 +22,7 @@ public class InputManager : MonoBehaviour
     InputAction moveAction;
     InputAction attackAction;
     InputAction mouseAction;
+    InputAction switchWeaponAction;
     InputAction pauseAction;
     InputAction unpauseAction;
 
@@ -49,6 +51,7 @@ public class InputManager : MonoBehaviour
         moveAction = GetActionFromMap("Move", gameMap);
         attackAction = GetActionFromMap("Attack", gameMap);
         mouseAction = GetActionFromMap("Mouse Position", gameMap);
+        switchWeaponAction = GetActionFromMap("Switch Weapon", gameMap);
         pauseAction = GetActionFromMap("Pause", gameMap);
 
         // UI actions
@@ -67,6 +70,7 @@ public class InputManager : MonoBehaviour
         AttackJustPressed = attackAction.WasPressedThisFrame();
         AttackPressed = attackAction.IsPressed();
         MouseInput = mouseAction.ReadValue<Vector2>();
+        SwitchWeaponInput = switchWeaponAction.WasPerformedThisFrame();
         PauseInput = pauseAction.WasPressedThisFrame();
 
         // UI inputs

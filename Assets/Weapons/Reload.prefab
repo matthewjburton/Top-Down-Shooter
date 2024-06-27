@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 7618229770454085635}
   - component: {fileID: 5369411539977639091}
   m_Layer: 5
-  m_Name: Reload Slider
+  m_Name: Reload
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

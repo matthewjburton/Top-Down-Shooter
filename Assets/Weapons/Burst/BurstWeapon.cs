@@ -21,8 +21,10 @@ public class BurstWeapon : ProjectileWeapon
     {
         for (int i = 0; i < numberOfProjectiles; i++)
         {
-            if (NeedReload(shooter))
+            if (ammo.NeedReload())
             {
+                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
                 yield break;
             }
 
@@ -31,8 +33,10 @@ public class BurstWeapon : ProjectileWeapon
 
             SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
 
-            if (NeedReload(shooter))
+            if (ammo.NeedReload())
             {
+                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
                 yield break;
             }
 

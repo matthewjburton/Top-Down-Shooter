@@ -1,5 +1,3 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public abstract class ProjectileWeapon : Weapon
@@ -9,20 +7,14 @@ public abstract class ProjectileWeapon : Weapon
     [SerializeField, Min(0)] protected float projectileSpeed;
 
     [Header("Ammo Settings")]
-    [SerializeField, Min(0)] protected int maxAmmo;
-    [SerializeField, Min(0)] protected float reloadTime;
-    [SerializeField] GameObject reloadPrefab;
-    protected int ammo;
-    protected GameObject reloadInstance;
+    [SerializeField] public Ammo ammo;
 
     [Header("Audio")]
     [SerializeField] protected AudioClip[] shootSounds;
 
     void OnEnable()
     {
-        ammo = maxAmmo;
-        GameObject.Find("Ammo").TryGetComponentWithWarning(out TextMeshProUGUI text);
-        text.text = $"{ammo}/{maxAmmo}";
+        ammo.SetAmmo(ammo.MaxAmmo);
     }
 
     public override void Attack(GameObject attacker)
@@ -32,8 +24,10 @@ public abstract class ProjectileWeapon : Weapon
 
     public virtual void Shoot(GameObject shooter)
     {
-        if (NeedReload(shooter))
+        if (ammo.NeedReload())
         {
+            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
             return;
         }
 
@@ -41,55 +35,16 @@ public abstract class ProjectileWeapon : Weapon
         Vector2 direction = CalculateDirection(shooter.transform.position, targetPosition);
 
         GameObject newProjectile = SpawnProjectile(shooter);
-
         ApplyVelocity(newProjectile, direction);
+        ammo.UseAmmo();
 
         SoundManager.Instance.PlayRandomSound(shootSounds, shooter.transform);
 
-        if (NeedReload(shooter))
+        if (ammo.NeedReload())
         {
+            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
             return;
-        }
-    }
-
-    protected virtual IEnumerator Reload(GameObject shooter)
-    {
-        if (reloadInstance != null)
-        {
-            yield break;
-        }
-
-        // Instantiate the reload slider
-        if (reloadPrefab != null)
-        {
-            reloadInstance = Instantiate(reloadPrefab, shooter.transform);
-            reloadInstance.transform.localPosition = new Vector3(0, 1.5f, 0); // Position above the shooter
-        }
-
-        float elapsedTime = 0f;
-        while (elapsedTime < reloadTime)
-        {
-            elapsedTime += Time.deltaTime;
-
-            // Update reload progress
-            if (reloadInstance != null)
-            {
-                float progress = elapsedTime / reloadTime;
-                reloadInstance.TryGetComponentWithWarning(out ReloadSlider slider);
-                slider.SetSlider(progress);
-            }
-
-            yield return null;
-        }
-
-        ammo = maxAmmo;
-        GameObject.Find("Ammo").TryGetComponentWithWarning(out TextMeshProUGUI text);
-        text.text = $"{ammo}/{maxAmmo}";
-
-        // Destroy the reload slider instance after reload is complete
-        if (reloadInstance != null)
-        {
-            Destroy(reloadInstance);
         }
     }
 
@@ -112,9 +67,7 @@ public abstract class ProjectileWeapon : Weapon
         if (newProjectile.TryGetComponentWithWarning(out Projectile projectile))
             projectile.SetShooter(shooter);
 
-        ammo--;
-        GameObject.Find("Ammo").TryGetComponentWithWarning(out TextMeshProUGUI text);
-        text.text = $"{ammo}/{maxAmmo}";
+        ammo.UseAmmo();
 
         return newProjectile;
     }
@@ -125,17 +78,5 @@ public abstract class ProjectileWeapon : Weapon
         {
             rb.velocity = direction * projectileSpeed;
         }
-    }
-
-    protected bool NeedReload(GameObject shooter)
-    {
-        if (ammo <= 0)
-        {
-            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
-                shooterMonoBehaviour.StartCoroutine(Reload(shooter));
-            return true;
-        }
-
-        return false;
     }
 }

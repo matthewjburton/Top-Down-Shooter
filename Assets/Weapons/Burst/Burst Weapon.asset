@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
   projectileSpeed: 50
-  maxAmmo: 15
-  reloadTime: 0.7
-  reloadPrefab: {fileID: 5769105379470162221, guid: 641d33ec1840e2b47a029234710fe426, type: 3}
+  ammo: {fileID: 11400000, guid: f20b515ffe5c2d94685a997f88f706e2, type: 2}
   shootSounds:
   - {fileID: 8300000, guid: cedf932de2529f64e9555de765a3934c, type: 3}
   - {fileID: 8300000, guid: 5fd8186a315fb2a42bec31d2381c034f, type: 3}

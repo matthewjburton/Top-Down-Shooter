@@ -8,8 +8,10 @@ public class ShotgunWeapon : ProjectileWeapon
 
     public override void Shoot(GameObject shooter)
     {
-        if (NeedReload(shooter))
+        if (ammo.NeedReload())
         {
+            if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
             return;
         }
 
@@ -24,8 +26,10 @@ public class ShotgunWeapon : ProjectileWeapon
             GameObject newProjectile = SpawnProjectile(shooter);
             ApplyVelocity(newProjectile, rotation * direction);
 
-            if (NeedReload(shooter))
+            if (ammo.NeedReload())
             {
+                if (shooter.TryGetComponentWithWarning(out MonoBehaviour shooterMonoBehaviour))
+                    shooterMonoBehaviour.StartCoroutine(ammo.Reload(shooter));
                 return;
             }
         }
