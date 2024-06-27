@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0282b484e0d8f4f89732d629fc70fb, type: 3}
+  m_Name: Shotgun Weapon
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 1024621877478992325, guid: eb73a767b75b4ca428eb74c6a0cf16df, type: 3}
+  projectileSpeed: 50
+  maxAmmo: 6
+  reloadTime: 1
+  reloadPrefab: {fileID: 5769105379470162221, guid: 641d33ec1840e2b47a029234710fe426, type: 3}
+  shootSounds:
+  - {fileID: 8300000, guid: cedf932de2529f64e9555de765a3934c, type: 3}
+  - {fileID: 8300000, guid: 5fd8186a315fb2a42bec31d2381c034f, type: 3}
+  - {fileID: 8300000, guid: 51dd1573154ff9e4cb1e497e54e16728, type: 3}
+  numberOfProjectiles: 3
+  spreadAngle: 5
