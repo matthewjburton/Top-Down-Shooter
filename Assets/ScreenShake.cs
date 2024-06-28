@@ -18,7 +18,6 @@ public class ScreenShake : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        originalPosition = transform.localPosition;
     }
 
     public void Shake(float duration, float magnitude)
@@ -26,8 +25,9 @@ public class ScreenShake : MonoBehaviour
         if (shakeCoroutine != null)
         {
             StopCoroutine(shakeCoroutine);
-            transform.localPosition = originalPosition;
         }
+
+        originalPosition = transform.position; // Save the current position before shaking
         shakeCoroutine = StartCoroutine(ShakeCoroutine(duration, magnitude));
     }
 
@@ -40,13 +40,13 @@ public class ScreenShake : MonoBehaviour
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            transform.localPosition = new Vector3(x, y, originalPosition.z);
+            transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        transform.localPosition = originalPosition;
+        transform.position = originalPosition; // Reset to the original position after shaking
     }
 }
